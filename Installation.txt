@@ -1,57 +1,55 @@
+📁
+
+// Extracted chest_xray data into our project
+
+Downloaded Chest X-ray dataset 📊
+Organized folders into train, val, test (each with NORMAL and PNEUMONIA) 🗂️
+Defined transforms (resize, normalize, augmentations for train) 🔧
+Dependencies 📦
+
+// Installing dependencies with CUDA 11.8 GPU support and tqdm for progress bars
+
 pip install torch torchvision torchaudio
 pip install matplotlib seaborn scikit-learn opencv-python
 pip install streamlit
+Model Setup 🤖
 
-// Extracted chest_xray data into our project
-// Installing dependecies with CUDA 11.8 GPU support and tqdm for progress bars
-pip install torch==1.13.1+cu102 torchvision==0.14.1+cu102 torchaudio==0.13.1 --index-url https://download.pytorch.org/whl/cu102
-// Using torchvision transform For resizing and augmentation, rotation and random flip also covert to tensor + normalize pictures
+// Using torchvision transform For resizing and augmentation, rotation and random flip also convert to tensor + normalize pictures
+
+Loaded ResNet18 (pretrained on ImageNet) 📚
+Replaced last layer for 2 classes (Normal / Pneumonia) 🔩
+Data Loaders 🚂
+
 // Created datasets and loaders
-// Model definition we loaded ResNet18 pretrained on ImageNet and replacing final layer for 2 classes  (normal,pneumonia) without forgeting definition of loss(nn.CrossEntopyLoss()) and optimize(Adam(lr=1e-4))
+
+Used ImageFolder + DataLoader → gives batches of (images, labels) for training 📈
+Training Loop 🔄
+
+// Model definition we loaded ResNet18 pretrained on ImageNet and replacing final layer for 2 classes (normal,pneumonia) without forgetting definition of loss(nn.CrossEntopyLoss()) and optimize(Adam(lr=1e-4))
+
+Forward pass, compute loss, backpropagation, optimizer step 📊
+Keep track of accuracy and best model 📈
+Added tqdm progress bar for clarity 📊
+Validation & Test 📊
+
 // Training loop , train_model with train + validation phase each epoch, accuracy and loss tracking, best model weights saved, tqdm for progress bars
+
+Evaluate on validation set after each epoch 📈
+Later: run on test set to measure final accuracy 📊
+Save Model 💻
+
 // Saving final model(torch.save())
-✅ So far we’ve gone from dataset → preprocessing → model setup → training loop.
-Next, we’ll focus on evaluation so we know how well the AI performs.
-Data → Model → Evaluation → Saved Model
 
-Dataset preparation
+Best model is saved with torch.save() → so you don’t need to retrain every time 💡
+Option 2: Use Recommended Preprocessing 🤔
 
-Downloaded Chest X-ray dataset.
+// Use weights.transforms() instead of your manual transforms
 
-Organized folders into train, val, test (each with NORMAL and PNEUMONIA).
+Use weights.transforms() instead of your manual transforms 🔧
+In this case, fine-tune your model (1–5 epochs may be enough) 🔩
+Notebooks 📝
 
-Defined transforms (resize, normalize, augmentations for train).
-
-Data loaders
-
-Used ImageFolder + DataLoader → gives batches of (images, labels) for training.
-
-Model setup
-
-Loaded ResNet18 (pretrained on ImageNet).
-
-Replaced last layer for 2 classes (Normal / Pneumonia).
-
-Training loop
-
-Forward pass, compute loss, backpropagation, optimizer step.
-
-Keep track of accuracy and best model.
-
-Added tqdm progress bar for clarity.
-
-Validation & Test
-
-Evaluate on validation set after each epoch.
-
-Later: run on test set to measure final accuracy.
-
-Save model
-
-Best model is saved with torch.save() → so you don’t need to retrain every time.
-
-Option 2: Use recommended preprocessing
-
-Use weights.transforms() instead of your manual transforms.
-
-In this case, fine-tune your model (1–5 epochs may be enough).
+data.ipynb → Loading, cleaning, and preprocessing the dataset 📊
+train.ipynb → Training the model (CNN) to detect Pneumonia/Normal 🤖
+model.ipynb → Defining the architecture and maybe saving/loading weights 📚
+inference.ipynb → Running the trained model on new images and generating 📸
